@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="so101" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- include modules -->
+  <xacro:include filename="$(find so101_description)/urdf/constants.xacro"/>
+  <xacro:include filename="$(find so101_description)/urdf/materials.xacro"/>
+  <!-- <xacro:include filename="$(find so101_description)/urdf/macros/servo_mesh.xacro"/> -->
+  <xacro:include filename="$(find so101_description)/urdf/links.xacro"/>
+  <xacro:include filename="$(find so101_description)/urdf/joints.xacro"/>
+
+  <!-- For ROS 2 control (optional; add when you wire controllers) -->
+  <xacro:include filename="$(find so101_description)/urdf/ros2_control.xacro"/>
+</robot>
