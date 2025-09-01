@@ -10,11 +10,21 @@ def generate_launch_description():
     desc_pkg = get_package_share_directory('so101_description')
     bringup_pkg = get_package_share_directory('so101_bringup')
 
-    urdf_xacro = os.path.join(desc_pkg, 'urdf', 'so101.urdf.xacro')
+
+    xacro_file = os.path.join(desc_pkg, 'urdf', 'so101.urdf.xacro')
+    robot_description_content = Command(['xacro ', xacro_file])
+
+    # urdf_file = os.path.join(pkg_share, 'urdf', 'so101.urdf')
+    # with open(urdf_file, 'r') as infp:
+    #     robot_description_content = infp.read()
+
+    robot_description = ParameterValue(robot_description_content, value_type=str)
+
+
+
     controllers_yaml = os.path.join(bringup_pkg, 'config', 'so101_controllers.yaml')
     rviz_cfg = os.path.join(bringup_pkg, 'rviz', 'bringup.rviz')
 
-    robot_description = ParameterValue(Command(['xacro ', urdf_xacro]), value_type=str)
 
     return LaunchDescription([
         Node(
@@ -38,9 +48,13 @@ def generate_launch_description():
                  arguments=['arm_controller'], output='screen'),
         ]),
 
-        Node(package='rviz2', executable='rviz2',
-             arguments=(['-d', rviz_cfg] if os.path.exists(rviz_cfg) else []),
-             output='screen')
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_cfg] if os.path.exists(rviz_cfg) else [],
+            output='screen'
+        )
     ])
 
 
