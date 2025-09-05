@@ -1,55 +1,58 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <ros2_control name="so101_hw" type="system">
-    <hardware>
-      <!-- <plugin>mock_components/GenericSystem</plugin>
-      <param name="calculate_dynamics">false</param>
-      <param name="custom_interface_with_following_offset"></param>
-      <param name="disable_commands">false</param>
-      <param name="mock_gpio_commands">false</param>
-      <param name="mock_sensor_commands">false</param>
-      <param name="position_state_following_offset">0.0</param> -->
+  <xacro:if value="${use_ros2_control}">
+    <ros2_control name="so101_hw" type="system">
+      <hardware>
+        <xacro:if value="${use_ignition}">
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="${use_ignition}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="calculate_dynamics">false</param>
+          <param name="custom_interface_with_following_offset"></param>
+          <param name="disable_commands">false</param>
+          <param name="mock_gpio_commands">false</param>
+          <param name="mock_sensor_commands">false</param>
+          <param name="position_state_following_offset">0.0</param>
+        </xacro:unless>
+      </hardware>
 
-      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+      <joint name="shoulder_pan">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
 
-    </hardware>
+      <joint name="shoulder_lift">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
 
-    <joint name="shoulder_pan">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
+      <joint name="elbow_flex">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
 
-    <joint name="shoulder_lift">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
+      <joint name="wrist_flex">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
 
-    <joint name="elbow_flex">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
+      <joint name="wrist_roll">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
 
-    <joint name="wrist_flex">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
-
-    <joint name="wrist_roll">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
-
-    <joint name="gripper">
-      <command_interface name="position"/>
-      <state_interface   name="position"/>
-      <state_interface   name="velocity"/>
-    </joint>
-  </ros2_control>
-
+      <joint name="gripper">
+        <command_interface name="position"/>
+        <state_interface   name="position"/>
+        <state_interface   name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:if>
 </robot>

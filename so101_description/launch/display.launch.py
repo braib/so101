@@ -10,9 +10,22 @@ import os
 def generate_launch_description():
     pkg_share = get_package_share_directory('so101_description')
 
-    xacro_file = os.path.join(pkg_share, 'urdf', 'so101.urdf.xacro')
-    robot_description_content = Command(['xacro ', xacro_file])
+    show_gui = LaunchConfiguration('gui')
+    use_ros2_control = LaunchConfiguration('use_ros2_control')
+    use_ignition = LaunchConfiguration('use_ignition')
 
+    gui_arg = DeclareLaunchArgument('gui', default_value='True')
+    use_ros2_control_arg = DeclareLaunchArgument('use_ros2_control', default_value='false')
+    use_ignition_arg = DeclareLaunchArgument('use_ignition', default_value='false')
+
+    xacro_file = os.path.join(pkg_share, 'urdf', 'so101.urdf.xacro')
+    # robot_description_content = Command(['xacro ', xacro_file])
+    robot_description_content = Command([
+        'xacro ', xacro_file,
+        ' use_ros2_control:=', use_ros2_control,
+        ' use_ignition:=', use_ignition
+    ])
+    
     # urdf_file = os.path.join(pkg_share, 'urdf', 'so101.urdf')
     # with open(urdf_file, 'r') as infp:
     #     robot_description_content = infp.read()
@@ -20,11 +33,11 @@ def generate_launch_description():
     robot_description = ParameterValue(robot_description_content, value_type=str)
 
     rviz_config = os.path.join(pkg_share, 'rviz', 'display.rviz')
-    gui_arg = DeclareLaunchArgument('gui', default_value='True')
-    show_gui = LaunchConfiguration('gui')
 
     return LaunchDescription([
         gui_arg,
+        use_ros2_control_arg,
+        use_ignition_arg,   
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',

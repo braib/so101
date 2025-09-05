@@ -1,19 +1,22 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <gazebo>
-        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-        <parameters>$(find so101_bringup)/config/so101_controllers.yaml</parameters>
-        </plugin>
-    </gazebo>
+    <!-- Define a property that can be set at xacro command -->
+    <xacro:if value="${use_ignition}">
+        <gazebo>
+            <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+                <parameters>$(find so101_bringup)/config/so101_controllers.yaml</parameters>
+                <robot_param>robot_description</robot_param>
+                <robot_param_node>robot_state_publisher</robot_param_node>
+            </plugin>
+        </gazebo>
+    </xacro:if>
 </robot>
 
 <!-- <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <gazebo>
-        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-            <parameters>$(find so101_bringup)/config/so101_controllers.yaml</parameters>
-            <robot_param>robot_description</robot_param>
-            <robot_param_node>robot_state_publisher</robot_param_node>
+        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find so101_bringup)/config/so101_controllers.yaml</parameters>
         </plugin>
     </gazebo>
 </robot> -->

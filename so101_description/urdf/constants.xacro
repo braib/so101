@@ -7,18 +7,12 @@
   <xacro:property name="default_effort"  value="10"/>
   <xacro:property name="default_velocity" value="10"/>
 
-  <!-- STL filenames (as used by your original file) -->
-  <!-- <xacro:property name="stl_base_holder"           value="base_motor_holder_so101_v1.stl"/>
-  <xacro:property name="stl_base"                  value="base_so101_v2.stl"/>
-  <xacro:property name="stl_servo"                 value="sts3215_03a_v1.stl"/>
-  <xacro:property name="stl_servo_nohorn"          value="sts3215_03a_no_horn_v1.stl"/>
-  <xacro:property name="stl_waveshare"             value="waveshare_mounting_plate_so101_v2.stl"/>
-  <xacro:property name="stl_rotation_pitch"        value="rotation_pitch_so101_v1.stl"/>
-  <xacro:property name="stl_upper_arm"             value="upper_arm_so101_v1.stl"/>
-  <xacro:property name="stl_under_arm"             value="under_arm_so101_v1.stl"/>
-  <xacro:property name="stl_wrist_holder"          value="motor_holder_so101_wrist_v1.stl"/>
-  <xacro:property name="stl_wrist_roll_pitch"      value="wrist_roll_pitch_so101_v2.stl"/>
-  <xacro:property name="stl_wrist_roll_follower"   value="wrist_roll_follower_so101_v1.stl"/>
-  <xacro:property name="stl_moving_jaw"            value="moving_jaw_so101_v1.stl"/>
-  <xacro:property name="stl_motor_holder_base"     value="motor_holder_so101_base_v1.stl"/> -->
+  <!-- Define arguments with default values -->
+  <xacro:arg name="use_ros2_control" default="true"/>
+  <xacro:arg name="use_ignition" default="true"/>
+  
+  <!-- Convert arguments to properties for use in included files -->
+  <xacro:property name="use_ros2_control" value="$(arg use_ros2_control)"/>
+  <xacro:property name="use_ignition" value="$(arg use_ignition)"/>
+
 </robot>

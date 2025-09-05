@@ -1,7 +1,8 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import TimerAction
-from launch.substitutions import Command
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 import os
@@ -10,9 +11,20 @@ def generate_launch_description():
     desc_pkg = get_package_share_directory('so101_description')
     bringup_pkg = get_package_share_directory('so101_bringup')
 
+    use_ros2_control = LaunchConfiguration('use_ros2_control')
+    use_ignition = LaunchConfiguration('use_ignition')
+
+    use_ros2_control_arg = DeclareLaunchArgument('use_ros2_control', default_value='true')
+    use_ignition_arg = DeclareLaunchArgument('use_ignition', default_value='false')
+
 
     xacro_file = os.path.join(desc_pkg, 'urdf', 'so101.urdf.xacro')
-    robot_description_content = Command(['xacro ', xacro_file])
+    # robot_description_content = Command(['xacro ', xacro_file])
+    robot_description_content = Command([
+        'xacro ', xacro_file,
+        ' use_ros2_control:=', use_ros2_control,
+        ' use_ignition:=', use_ignition
+    ])
 
     # urdf_file = os.path.join(pkg_share, 'urdf', 'so101.urdf')
     # with open(urdf_file, 'r') as infp:
@@ -25,6 +37,8 @@ def generate_launch_description():
 
 
     return LaunchDescription([
+        use_ros2_control_arg,
+        use_ignition_arg,
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
