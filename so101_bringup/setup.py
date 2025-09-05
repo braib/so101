@@ -25,6 +25,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'test1 = so101_bringup.test1:main',
         ],
     },
 )

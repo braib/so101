@@ -9,4 +9,5 @@
 
   <!-- For ROS 2 control (optional; add when you wire controllers) -->
   <xacro:include filename="$(find so101_description)/urdf/ros2_control.xacro"/>
+  <xacro:include filename="$(find so101_description)/urdf/ignition.xacro"/>
 </robot>

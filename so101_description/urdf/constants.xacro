@@ -2,9 +2,8 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Shared constants/properties (no includes here) -->
   <!-- <xacro:property name="mesh_dir" value="$(find so101_description)/meshes/assets"/> -->
-  <!-- <xacro:property name="mesh_dir" value="package://so101_description/meshes/so101"/> -->
+  <xacro:property name="MESH_DIR" value="package://so101_description/meshes/so101"/>
   
-
   <xacro:property name="default_effort"  value="10"/>
   <xacro:property name="default_velocity" value="10"/>
 

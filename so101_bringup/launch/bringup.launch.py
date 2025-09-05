@@ -20,8 +20,6 @@ def generate_launch_description():
 
     robot_description = ParameterValue(robot_description_content, value_type=str)
 
-
-
     controllers_yaml = os.path.join(bringup_pkg, 'config', 'so101_controllers.yaml')
     rviz_cfg = os.path.join(bringup_pkg, 'rviz', 'bringup.rviz')
 
@@ -120,3 +118,9 @@ def generate_launch_description():
 
 # # Get a controller’s parameters (e.g., its joint list)
 # ros2 param get /arm_controller joints
+
+
+
+
+
+

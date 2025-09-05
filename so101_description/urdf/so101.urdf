@@ -27,7 +27,7 @@
   <material name="sts3215">
     <color rgba="0.1 0.1 0.1 1.0"/>
   </material>
-  <link name="world"/>
+  <!-- <link name="world"/> -->
   <!-- Link base -->
   <link name="base_link">
     <inertial>
@@ -331,10 +331,10 @@
       </geometry>
     </collision>
   </link>
-  <joint name="world_to_base" type="fixed">
+  <!-- <joint name="world_to_base" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
-  </joint>
+  </joint> -->
   <!-- fixed: gripper_link -> gripper_frame_link -->
   <joint name="gripper_frame_joint" type="fixed">
     <origin rpy="0 3.14159 0" xyz="-0.0079 -0.000218121 -0.0981274"/>
