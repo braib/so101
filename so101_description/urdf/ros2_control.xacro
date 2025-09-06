@@ -12,9 +12,10 @@
         <!-- Case 2: Real hardware -->
         <xacro:unless value="${use_ignition}">
           <xacro:if value="${use_hardware}">
-            <plugin>so101_hardware/So101System</plugin>
+            <plugin>so101_hardware/So101Hardware</plugin>
             <param name="port">/dev/ttyUSB0</param>
-            <param name="baud_rate">115200</param>
+            <param name="baudrate">115200</param>
+            <param name="timeout_ms">1000</param>
           </xacro:if>
 
           <!-- Case 3: Mock/fake system (default if not ignition, not hardware) -->

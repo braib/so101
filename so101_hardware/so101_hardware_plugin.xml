@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<library path="so101_hardware">
+  <class name="so101_hardware/So101Hardware"
+         type="so101_hardware::So101Hardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface for So101 robot hardware
+    </description>
+  </class>
+</library>
