@@ -12,6 +12,7 @@ import os
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
+    use_sim = LaunchConfiguration("use_sim")
     model_name   = LaunchConfiguration("model_name")
     use_rviz     = LaunchConfiguration("use_rviz")
     use_ros2_control = LaunchConfiguration('use_ros2_control')
@@ -45,7 +46,10 @@ def generate_launch_description():
     rsp = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[{"robot_description": robot_description, "use_sim_time": use_sim_time}],
+        parameters=[{
+            "robot_description": robot_description,
+            "use_sim_time": use_sim_time
+        }],
         output="screen",
     )
 
@@ -59,11 +63,15 @@ def generate_launch_description():
     spawn = Node(
         package="ros_ign_gazebo",
         executable="create",
-        arguments=["-name", model_name, "-topic", "/robot_description", "-z", "0.05"],
+        arguments=[
+            "-name", model_name,
+            "-topic", "/robot_description",
+            "-z", "0.015"
+        ],
         output="screen",
     )
 
-    controllers_yaml = PathJoinSubstitution([bringup_share, "config", "so101_controllers.yaml"])
+    controllers_yaml = PathJoinSubstitution([bringup_share, "config", "so101_controllers1.yaml"])
 
 
     spawner_js = Node(
@@ -90,16 +98,29 @@ def generate_launch_description():
         output="screen",
     )
 
+    spawner_gripper = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "gripper_controller",
+            "--controller-type", "position_controllers/JointGroupPositionController",
+            "-c", "/controller_manager",
+            "--param-file", controllers_yaml,
+        ],
+        output="screen",
+    )
     rviz = Node(
         package="rviz2",
         executable="rviz2",
         arguments=["-d", rviz_cfg],
+        parameters=[{"use_sim_time": use_sim_time}],
         output="screen",
     )
 
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="true"),
-        DeclareLaunchArgument('use_rviz', default_value='true'),
+        DeclareLaunchArgument("use_sim", default_value="true"),
+        DeclareLaunchArgument('use_rviz', default_value='false'),
         DeclareLaunchArgument("model_name",   default_value="so101"),
         DeclareLaunchArgument('use_ros2_control', default_value='true'),
         DeclareLaunchArgument('use_ignition', default_value='true'),
@@ -108,5 +129,6 @@ def generate_launch_description():
         TimerAction(period=1.0, actions=[spawn]),
         TimerAction(period=3.0, actions=[spawner_js]),
         TimerAction(period=4.0, actions=[spawner_arm]),
-        TimerAction(period=5.0, actions=[rviz], condition=IfCondition(use_rviz)),
+        TimerAction(period=5.0, actions=[spawner_gripper]),
+        TimerAction(period=6.0, actions=[rviz], condition=IfCondition(use_rviz)),
     ])

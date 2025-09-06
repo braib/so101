@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- <joint name="world_to_base" type="fixed">
+  <joint name="world_to_base" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
-  </joint> -->
+  </joint>
   
   <!-- fixed: gripper_link -> gripper_frame_link -->
   <joint name="gripper_frame_joint" type="fixed">

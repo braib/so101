@@ -4,22 +4,29 @@
   <xacro:if value="${use_ros2_control}">
     <ros2_control name="so101_hw" type="system">
       <hardware>
+        <!-- Case 1: Ignition/Gazebo simulation -->
         <xacro:if value="${use_ignition}">
           <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </xacro:if>
-        <xacro:unless value="${use_ignition}">
-          <plugin>mock_components/GenericSystem</plugin>
-          <param name="calculate_dynamics">false</param>
-          <param name="custom_interface_with_following_offset"></param>
-          <param name="disable_commands">false</param>
-          <param name="mock_gpio_commands">false</param>
-          <param name="mock_sensor_commands">false</param>
-          <param name="position_state_following_offset">0.0</param>
-        </xacro:unless>
 
-        <!-- <hardware>
-          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-        </hardware> -->
+        <!-- Case 2: Real hardware -->
+        <xacro:unless value="${use_ignition}">
+          <xacro:if value="${use_hardware}">
+            <plugin>so101_hardware/So101System</plugin>
+            <param name="port">/dev/ttyUSB0</param>
+            <param name="baud_rate">115200</param>
+          </xacro:if>
+
+          <!-- Case 3: Mock/fake system (default if not ignition, not hardware) -->
+          <xacro:unless value="${use_hardware}">
+            <plugin>mock_components/GenericSystem</plugin>
+            <param name="calculate_dynamics">false</param>
+            <param name="disable_commands">false</param>
+            <param name="mock_gpio_commands">false</param>
+            <param name="mock_sensor_commands">false</param>
+            <param name="position_state_following_offset">0.0</param>
+          </xacro:unless>
+        </xacro:unless>
 
       </hardware>
 
