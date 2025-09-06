@@ -16,6 +16,11 @@
           <param name="mock_sensor_commands">false</param>
           <param name="position_state_following_offset">0.0</param>
         </xacro:unless>
+
+        <!-- <hardware>
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware> -->
+
       </hardware>
 
       <joint name="shoulder_pan">
